@@ -9,29 +9,21 @@
 import UIKit
 
 class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var expirationDate: UILabel!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var noteTextView: UITextView!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var topImgConstraint: NSLayoutConstraint!
+    @IBOutlet weak var leftImgConstraint: NSLayoutConstraint!
     
     var bottomImgConstraint: NSLayoutConstraint!
     var rightImgConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var imageView: UIImageView!
-    
-    @IBOutlet weak var topImgConstraint: NSLayoutConstraint!
- 
-    @IBOutlet weak var leftImgConstraint: NSLayoutConstraint!
-   
-    
     var relativePoint: CGPoint!
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         // MARK: Constraint by code
         bottomImgConstraint = NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: noteTextView, attribute: .bottom, multiplier: 1, constant: -20)
@@ -40,13 +32,12 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
         view.addConstraints(constArray)
         NSLayoutConstraint.deactivate(constArray)
         
-        
         // MARK: Navigation Controller
         navigationController?.isToolbarHidden = false
         
         let photoBarButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(catchPhoto))
         
-//        let fixSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)  // Ready to use.
+        //let fixSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)  // Ready to use.
         
         let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
@@ -55,7 +46,6 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
         self.setToolbarItems([photoBarButton,flexible,mapBarButton], animated: false)
         
         // MARK: Gestures
-        
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(closeKeyboard))
         swipeGesture.direction = .down
         
@@ -63,20 +53,18 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
         
         imageView.isUserInteractionEnabled = true
         
-        //        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(moveImage))
+        //let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(moveImage))
         //
-        //        doubleTapGesture.numberOfTapsRequired = 2
+        //doubleTapGesture.numberOfTapsRequired = 2
         //
-        //        imageView.addGestureRecognizer(doubleTapGesture)
+        //imageView.addGestureRecognizer(doubleTapGesture)
         
         let moveViewGesture = UILongPressGestureRecognizer(target: self, action: #selector(userMoveImage))
         
         imageView.addGestureRecognizer(moveViewGesture)
-        
     }
     
-    @objc func userMoveImage(longPressGesture:UILongPressGestureRecognizer)
-    {
+    @objc func userMoveImage(longPressGesture:UILongPressGestureRecognizer) {
         switch longPressGesture.state {
         case .began:
             closeKeyboard()
@@ -84,51 +72,34 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
             UIView.animate(withDuration: 0.1, animations: {
                 self.imageView.transform = CGAffineTransform.init(scaleX: 1.2, y: 1.2)
             })
-            
         case .changed:
             let location = longPressGesture.location(in: noteTextView)
             
             leftImgConstraint.constant = location.x - relativePoint.x
             topImgConstraint.constant = location.y - relativePoint.y
-            
         case .ended, .cancelled:
-            
             UIView.animate(withDuration: 0.1, animations: {
                 self.imageView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
             })
-            
         default:
             break
         }
-        
     }
     
-    
-    @objc func moveImage(tapGesture:UITapGestureRecognizer)
-    {
-        
-        if topImgConstraint.isActive
-        {
-            if leftImgConstraint.isActive
-            {
+    @objc func moveImage(tapGesture:UITapGestureRecognizer) {
+        if topImgConstraint.isActive {
+            if leftImgConstraint.isActive {
                 leftImgConstraint.isActive = false
                 rightImgConstraint.isActive = true
-            }
-            else
-            {
+            } else {
                 topImgConstraint.isActive = false
                 bottomImgConstraint.isActive = true
             }
-        }
-        else
-        {
-            if leftImgConstraint.isActive
-            {
+        } else {
+            if leftImgConstraint.isActive {
                 bottomImgConstraint.isActive = false
                 topImgConstraint.isActive = true
-            }
-            else
-            {
+            } else {
                 rightImgConstraint.isActive = false
                 leftImgConstraint.isActive = true
             }
@@ -139,25 +110,15 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
         }
     }
     
-    
-    
-    @objc func closeKeyboard()
-    {
-        
-        
-        if noteTextView.isFirstResponder
-        {
+    @objc func closeKeyboard() {
+        if noteTextView.isFirstResponder {
             noteTextView.resignFirstResponder()
-        }
-        else if titleTextField.isFirstResponder
-        {
+        } else if titleTextField.isFirstResponder {
             titleTextField.resignFirstResponder()
         }
     }
     
-    
-    override func viewDidLayoutSubviews()
-    {
+    override func viewDidLayoutSubviews() {
         var rect = view.convert(imageView.frame, to: noteTextView)
         rect = rect.insetBy(dx: -15, dy: -15)
         
@@ -166,9 +127,7 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
     }
     
     // MARK: Toolbar Buttons actions
-    
-    @objc func catchPhoto()
-    {
+    @objc func catchPhoto() {
         let actionSheetAlert = UIAlertController(title: NSLocalizedString("Add photo", comment: "Add photo"), message: nil, preferredStyle: .actionSheet)
         
         let imagePicker = UIImagePickerController()
@@ -189,29 +148,17 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
         actionSheetAlert.addAction(usePhotoLibrary)
         actionSheetAlert.addAction(cancel)
         
-        
-        
         present(actionSheetAlert, animated: true, completion: nil)
     }
     
-    @objc func addLocation()
-    {
-        
-    }
-    
+    @objc func addLocation() { }
     
     // MARK: Image Picker Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
         imageView.image = image
         
         picker.dismiss(animated: true, completion: nil)
-        
     }
-
-
-
-
 }

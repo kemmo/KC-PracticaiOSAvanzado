@@ -89,9 +89,9 @@
 				87FA934E2051CEA600CA6C40 /* Info.plist */,
 				87FA93542051CF2600CA6C40 /* Launch Screen.storyboard */,
 				87FA93562051CF9100CA6C40 /* NoteViewController.swift */,
+				87FA93572051CF9100CA6C40 /* NoteViewController.xib */,
 				87FA935A2051F0E400CA6C40 /* NoteViewByCodeController.swift */,
 				8771F20820572F2000F44341 /* NotesTableViewController.swift */,
-				87FA93572051CF9100CA6C40 /* NoteViewController.xib */,
 			);
 			path = Everpobre;
 			sourceTree = "<group>";
@@ -124,7 +124,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
-				ORGANIZATIONNAME = "Joaquin Perez";
+				ORGANIZATIONNAME = "Jorge Vinaches";
 				TargetAttributes = {
 					87FA933E2051CEA600CA6C40 = {
 						CreatedOnToolsVersion = 9.2;
@@ -295,7 +295,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Everpobre/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.keepcoding.Everpobre;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jorgevinaches.Everpobre;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -309,7 +309,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Everpobre/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.keepcoding.Everpobre;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jorgevinaches.Everpobre;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
