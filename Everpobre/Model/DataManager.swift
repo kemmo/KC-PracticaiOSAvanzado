@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 class DataManager: NSObject {
-    
     static let sharedManager = DataManager()
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -26,6 +25,4 @@ class DataManager: NSObject {
         })
         return container
     }()
-
-
 }

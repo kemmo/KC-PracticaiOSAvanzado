@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NoteViewByCodeController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
@@ -149,9 +150,15 @@ class NoteViewByCodeController: UIViewController, UIImagePickerControllerDelegat
         imageView.addGestureRecognizer(moveViewGesture)
         
         // MARK: About Note
-        if note != nil {
-            titleTextField.text = note?.title
-            noteTextView.text = note?.content
+        if let note = note {
+            titleTextField.text = note.title
+            noteTextView.text = note.content
+            
+            if let pictures = note.pictures {
+                if pictures.count > 0 {
+                    imageView.image = UIImage(data: (pictures.allObjects[0] as! Picture).picture!)
+                }
+            }
         }
     }
     
@@ -249,6 +256,18 @@ class NoteViewByCodeController: UIViewController, UIImagePickerControllerDelegat
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
         imageView.image = image
+        
+        if let moc = note?.managedObjectContext {
+            moc.perform {
+                let picture = NSEntityDescription.insertNewObject(forEntityName: "Picture", into: moc) as! Picture
+                picture.picture = UIImageJPEGRepresentation(image, 1)
+                picture.note = self.note!
+                
+                self.note?.addToPictures(picture)
+                
+                try! moc.save()
+            }
+        }
         
         picker.dismiss(animated: true, completion: nil)
     }

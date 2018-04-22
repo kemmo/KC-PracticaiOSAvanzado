@@ -9,32 +9,23 @@
 import Foundation
 
 extension Note {
-    
-    override public func setValue(_ value: Any?, forUndefinedKey key: String)
-    {
+    override public func setValue(_ value: Any?, forUndefinedKey key: String) {
         let keyToIgn = ["date", "content"]
         
-        if keyToIgn.contains(key){
+        if keyToIgn.contains(key) {
             
-        }
-        else if key == "main_title"
-        {
+        } else if key == NoteKeys.mainTitle {
             self.setValue(value, forKey: "title")
-        }
-        else {
+        } else {
             super.setValue(value, forKey: key)
         }
     }
     
     public override func value(forUndefinedKey key: String) -> Any? {
-        if key == "main_title"
-        {
-        return "main_title"
-        }
-        else {
+        if key == NoteKeys.mainTitle {
+            return NoteKeys.mainTitle
+        } else {
             return super.value(forKey: key)
         }
-   
     }
-    
 }

@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D102" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17D102" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Note" representedClassName="Note" syncable="YES" codeGenerationType="class">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="createdAtTI" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="createdAtTI" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="expiredAtTI" optional="YES" attributeType="Double" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hasMap" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="notebook" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Notebook" inverseName="notes" inverseEntity="Notebook" syncable="YES"/>
+        <relationship name="pictures" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Picture" inverseName="note" inverseEntity="Picture" syncable="YES"/>
     </entity>
     <entity name="Notebook" representedClassName="Notebook" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="notes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="notebook" inverseEntity="Note" syncable="YES"/>
+        <attribute name="isDefault" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="notes" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Note" inverseName="notebook" inverseEntity="Note" syncable="YES"/>
+    </entity>
+    <entity name="Picture" representedClassName="Picture" syncable="YES" codeGenerationType="class">
+        <attribute name="picture" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <relationship name="note" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="pictures" inverseEntity="Note" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Notebook" positionX="-1703" positionY="-4239" width="128" height="73"/>
-        <element name="Note" positionX="-1487" positionY="-4216" width="128" height="103"/>
+        <element name="Note" positionX="-1487" positionY="-4216" width="128" height="180"/>
+        <element name="Notebook" positionX="-1703" positionY="-4239" width="128" height="90"/>
+        <element name="Picture" positionX="-1593" positionY="-4194" width="128" height="75"/>
     </elements>
 </model>
