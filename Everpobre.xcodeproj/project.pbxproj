@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E1F629020DD181E000A8E9B /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1F628F20DD181E000A8E9B /* NotesTableViewController.swift */; };
 		5E484623207EBE3200EBBE55 /* ManagedObjectsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E484622207EBE3200EBBE55 /* ManagedObjectsKeys.swift */; };
 		5E48462A207FD46300EBBE55 /* NoteViewByCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E484629207FD46300EBBE55 /* NoteViewByCodeController.swift */; };
 		5E48462E207FD58700EBBE55 /* NoteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E48462D207FD58700EBBE55 /* NoteManager.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E1F628F20DD181E000A8E9B /* NotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 		5E484622207EBE3200EBBE55 /* ManagedObjectsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectsKeys.swift; sourceTree = "<group>"; };
 		5E484629207FD46300EBBE55 /* NoteViewByCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewByCodeController.swift; sourceTree = "<group>"; };
 		5E48462D207FD58700EBBE55 /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		5E484625207FD3DE00EBBE55 /* NotesTableViewController */ = {
 			isa = PBXGroup;
 			children = (
+				5E1F628F20DD181E000A8E9B /* NotesTableViewController.swift */,
 				5E484631207FDD7B00EBBE55 /* NotesPresenter.swift */,
 				5E904179208D095700CAE2A6 /* NotesTableViewCell.swift */,
 				5E90417A208D095700CAE2A6 /* NotesTableViewCell.xib */,
@@ -326,6 +329,7 @@
 				5EE6494F2089446B000A522A /* MapViewController.swift in Sources */,
 				5E752DF72086A15400364CF2 /* ReassignNotesPresenter.swift in Sources */,
 				5E90417B208D095700CAE2A6 /* NotesTableViewCell.swift in Sources */,
+				5E1F629020DD181E000A8E9B /* NotesTableViewController.swift in Sources */,
 				5E484623207EBE3200EBBE55 /* ManagedObjectsKeys.swift in Sources */,
 				5EE6491B2087F416000A522A /* NoNoteViewController.swift in Sources */,
 				5E66458B208517B60013E20A /* EditNotebooksPresenter.swift in Sources */,
