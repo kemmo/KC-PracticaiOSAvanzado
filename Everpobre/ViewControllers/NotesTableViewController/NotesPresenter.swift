@@ -14,7 +14,7 @@ protocol NotesPresenterDelegate: class {
     func reloadData()
 }
 
-struct NotesPresenter {
+class NotesPresenter {
     let viewController: NotesTableViewController
     weak var delegate: NotesPresenterDelegate?
     var notes: [Note] {
@@ -31,11 +31,11 @@ struct NotesPresenter {
         self.delegate = delegate
     }
     
-    mutating func viewDidLoad() {
+    func viewDidLoad() {
         fetchNotes()
     }
     
-    private mutating func fetchNotes() {
+    func fetchNotes() {
         let viewMOC = DataManager.sharedManager.persistentContainer.viewContext
         
         let fetchNotDefaultRequest = NSFetchRequest<Note>(entityName: "Note")
@@ -123,5 +123,27 @@ struct NotesPresenter {
                 return false
             }
         }
+    }
+    
+    func goToEditNotebooks() {
+        fetchedDefaultResultController.delegate = nil
+        fetchedNotDefaultResultController.delegate = nil
+        
+        let notebooksViewController = EditNotebooksViewController()
+        
+        let newNavigationController = UINavigationController(rootViewController: notebooksViewController)
+        
+        viewController.present(newNavigationController, animated: true, completion: nil)
+    }
+    
+    func goToNote(note: Note?) {
+        fetchedDefaultResultController.delegate = nil
+        fetchedNotDefaultResultController.delegate = nil
+        
+        let noteViewController = NoteViewController()
+        noteViewController.note = note
+        
+        let nav = UINavigationController(rootViewController:noteViewController)
+        viewController.splitViewController?.showDetailViewController(nav, sender: nil)
     }
 }

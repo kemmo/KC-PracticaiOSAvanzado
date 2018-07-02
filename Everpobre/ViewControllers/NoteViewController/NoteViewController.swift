@@ -49,8 +49,18 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-     
+        splitViewController?.navigationController?.isNavigationBarHidden = false
+        
+        navigationItem.leftItemsSupplementBackButton = true
+        navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+        
+        navigationController?.isNavigationBarHidden = false
+
         setupNote()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.isToolbarHidden = true
     }
     
     private func setupNavigationBar() {
@@ -361,14 +371,6 @@ class NoteViewController: UIViewController,  UIImagePickerControllerDelegate, UI
         selectNotebookAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         self.present(selectNotebookAlert, animated: true)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        /*var rect = view.convert(imageView.frame, to: noteTextView)
-        rect = rect.insetBy(dx: -15, dy: -15)
-        
-        let paths = UIBezierPath(rect: rect)
-        noteTextView.textContainer.exclusionPaths = [paths]*/
     }
     
     // MARK: Toolbar Buttons actions

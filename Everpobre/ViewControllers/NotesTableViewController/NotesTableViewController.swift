@@ -11,96 +11,118 @@ import CoreData
 
 class NotesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-    var fetchedResultController : NSFetchedResultsController<Note>!
+    private lazy var presenter = NotesPresenter(viewController: self, delegate: self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.register(UINib(nibName: "NotesTableViewCell", bundle: nil), forCellReuseIdentifier: "notesTableCell")
+        tableView.register(UINib(nibName: "NotesSectionTableViewCell", bundle: nil), forCellReuseIdentifier: "notesSectionCell")
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewNote))
+        navigationItem.title = "Everpobre"
         
-        // Fetch Request.
-        let viewMOC = DataManager.sharedManager.persistentContainer.viewContext
+        presenter.viewDidLoad()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        //        // 1.- Creamos el objeto
-        //        let fetchRequest =  NSFetchRequest<Note>()
-        //
-        //        // 2.- Que entidad es de la que queremos objeto.
-        //        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Note", in: viewMOC)
-        
-        //   let fetchRequest = Note.fetchNoteRequest()
-        
-        let fetchRequest = NSFetchRequest<Note>(entityName: "Note")
-        
-        // 3.- (Opcional) Indicamos orden.
-        let sortByDate = NSSortDescriptor(key: "createdAtTI", ascending: true)
-        let sortByTitle = NSSortDescriptor(key: "title", ascending: true)
-        fetchRequest.sortDescriptors = [sortByDate,sortByTitle]
-        
-        // 4.- (Opcional) Filtrado.
-        let created24H = Date().timeIntervalSince1970 - 24 * 3600
-        let predicate = NSPredicate(format: "createdAtTI >= %f", created24H)
-        fetchRequest.predicate = predicate
-        
-        fetchRequest.fetchBatchSize = 25
-        
-        fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewMOC, sectionNameKeyPath: nil, cacheName: nil)
-        
-        try! fetchedResultController.performFetch()
-        
-        fetchedResultController.delegate = self
+        presenter.fetchNotes()
     }
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultController.sections!.count
+        return presenter.getNumberOfNotebooks()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultController.sections![section].numberOfObjects
+        return presenter.getNotesForNotebook(section)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier")
-        if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: "reuseIdentifier")
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "notesTableCell") as! NotesTableViewCell
+        cell.setNote(note: presenter.getNote(at: indexPath))
         
-        cell?.textLabel?.text = fetchedResultController.object(at: indexPath).title
-        
-        return cell!
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let noteViewController = NoteViewByCodeController()
-        noteViewController.note = fetchedResultController.object(at: indexPath)
+        goToNote(note: presenter.getNote(at: indexPath))
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = tableView.dequeueReusableCell(withIdentifier: "notesSectionCell") as! NotesSectionTableViewCell
+        view.titleLabel.text = presenter.getNotebook(section).description
+        view.countLabel.text = "Notes: \(presenter.getNotesForNotebook(section))"
         
-        //let noteViewController = NoteViewController()
-        navigationController?.pushViewController(noteViewController, animated: true)
+        if presenter.isSectionDefault(section) {
+            view.backgroundColor = self.view.tintColor
+        }
+        
+        return view
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultController.sections![section].name
+        return presenter.getNotebook(section).description
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        var rowActions = [UITableViewRowAction]()
+        
+        let delete =  UITableViewRowAction(style: .destructive, title: "Delete") { action, index in
+            NoteManager.deleteNote(note: self.presenter.getNote(at: indexPath))
+        }
+        rowActions.append(delete)
+
+        return rowActions
     }
     
     @objc func addNewNote()  {
-        // Tradicionalmente.
-        let privateMOC = DataManager.sharedManager.persistentContainer.newBackgroundContext()
+        let actionSheetAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        privateMOC.perform {
-            let note = NSEntityDescription.insertNewObject(forEntityName: "Note", into: privateMOC) as! Note
-            
-            let dict = ["main_title":"Nueva nota from KVC","createdAtTI":Date().timeIntervalSince1970] as [String : Any]
-            
-            // note.title = "Nueva nota"
-            // note.createdAtTI = Date().timeIntervalSince1970
-            
-            note.setValuesForKeys(dict)
-            
-            try! privateMOC.save()
+        let quickNote = UIAlertAction(title: "Create quick note", style: .default) { (alertAction) in
+            NoteManager.createQuickNote()
         }
+        
+        let createNote = UIAlertAction(title: "New note", style: .default) { (alertAction) in
+            self.goToNote(note: nil)
+        }
+        
+        let editNotebooks = UIAlertAction(title: "Edit notebooks", style: .default) { (alertAction) in
+            self.goToEditNotebooks()
+        }
+        
+        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .destructive, handler: nil)
+        
+        actionSheetAlert.addAction(quickNote)
+        actionSheetAlert.addAction(createNote)
+        actionSheetAlert.addAction(editNotebooks)
+        actionSheetAlert.addAction(cancel)
+        
+        if let popoverController = actionSheetAlert.popoverPresentationController {
+            popoverController.barButtonItem = navigationItem.rightBarButtonItem
+        }
+        
+        present(actionSheetAlert, animated: true, completion: nil)
+    }
+    
+    private func goToEditNotebooks() {
+        presenter.goToEditNotebooks()
+    }
+    
+    private func goToNote(note: Note?) {
+        presenter.goToNote(note: note)
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        presenter.fetchNotes()
+    }
+}
+
+extension NotesTableViewController: NotesPresenterDelegate {
+    func reloadData() {
         tableView.reloadData()
     }
 }

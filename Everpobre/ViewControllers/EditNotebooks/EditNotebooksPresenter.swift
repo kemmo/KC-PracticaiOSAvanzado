@@ -14,7 +14,7 @@ protocol EditNotebooksPresenterDelegate: class {
     func reloadData()
 }
 
-struct EditNotebooksPresenter {
+class EditNotebooksPresenter {
     private let viewController: EditNotebooksViewController
     private weak var delegate: EditNotebooksPresenterDelegate?
     var notebooks: [Notebook] {
@@ -30,11 +30,14 @@ struct EditNotebooksPresenter {
         self.delegate = delegate
     }
     
-    mutating func viewDidLoad() {
+    func viewDidLoad() {
         fetchNotebooks()
     }
     
-    private mutating func fetchNotebooks() {
+    func fetchNotebooks() {
+        fetchedResultController = nil
+        delegate?.reloadData()
+        
         let viewMOC = DataManager.sharedManager.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<Notebook>(entityName: "Notebook")
@@ -87,6 +90,8 @@ struct EditNotebooksPresenter {
         if notebook.isDefault {
             return
         }
+        
+        fetchedResultController.delegate = nil
         
         let reassignNotesViewController = ReassignNotesViewController()
         reassignNotesViewController.notebook = notebook

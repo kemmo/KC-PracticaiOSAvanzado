@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5E1F629020DD181E000A8E9B /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1F628F20DD181E000A8E9B /* NotesTableViewController.swift */; };
 		5E484623207EBE3200EBBE55 /* ManagedObjectsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E484622207EBE3200EBBE55 /* ManagedObjectsKeys.swift */; };
-		5E48462A207FD46300EBBE55 /* NoteViewByCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E484629207FD46300EBBE55 /* NoteViewByCodeController.swift */; };
 		5E48462E207FD58700EBBE55 /* NoteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E48462D207FD58700EBBE55 /* NoteManager.swift */; };
 		5E484630207FD70200EBBE55 /* NotebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E48462F207FD70200EBBE55 /* NotebookManager.swift */; };
 		5E484632207FDD7B00EBBE55 /* NotesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E484631207FDD7B00EBBE55 /* NotesPresenter.swift */; };
@@ -44,7 +43,6 @@
 /* Begin PBXFileReference section */
 		5E1F628F20DD181E000A8E9B /* NotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 		5E484622207EBE3200EBBE55 /* ManagedObjectsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectsKeys.swift; sourceTree = "<group>"; };
-		5E484629207FD46300EBBE55 /* NoteViewByCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewByCodeController.swift; sourceTree = "<group>"; };
 		5E48462D207FD58700EBBE55 /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = "<group>"; };
 		5E48462F207FD70200EBBE55 /* NotebookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookManager.swift; sourceTree = "<group>"; };
 		5E484631207FDD7B00EBBE55 /* NotesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesPresenter.swift; sourceTree = "<group>"; };
@@ -119,7 +117,6 @@
 		5E484626207FD3EA00EBBE55 /* NoteViewController */ = {
 			isa = PBXGroup;
 			children = (
-				5E484629207FD46300EBBE55 /* NoteViewByCodeController.swift */,
 				87FA93562051CF9100CA6C40 /* NoteViewController.swift */,
 				87FA93572051CF9100CA6C40 /* NoteViewController.xib */,
 				5EE6494B20891844000A522A /* NotePresenter.swift */,
@@ -324,7 +321,6 @@
 				5E752DF020869AAC00364CF2 /* ReassignNotesViewController.swift in Sources */,
 				5E484632207FDD7B00EBBE55 /* NotesPresenter.swift in Sources */,
 				87FA93582051CF9100CA6C40 /* NoteViewController.swift in Sources */,
-				5E48462A207FD46300EBBE55 /* NoteViewByCodeController.swift in Sources */,
 				87FA93432051CEA600CA6C40 /* AppDelegate.swift in Sources */,
 				5EE6494F2089446B000A522A /* MapViewController.swift in Sources */,
 				5E752DF72086A15400364CF2 /* ReassignNotesPresenter.swift in Sources */,

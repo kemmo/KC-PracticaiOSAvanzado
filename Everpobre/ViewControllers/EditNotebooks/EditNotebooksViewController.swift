@@ -24,6 +24,11 @@ class EditNotebooksViewController: UIViewController, NSFetchedResultsControllerD
         presenter.viewDidLoad()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        presenter.fetchNotebooks()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
@@ -138,7 +143,7 @@ extension EditNotebooksViewController: EditNotebooksPresenterDelegate {
 extension EditNotebooksViewController {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if let _ = controller as? NSFetchedResultsController<Notebook> {
-            tableView.reloadData()
+            presenter.fetchNotebooks()
         }
     }
 }

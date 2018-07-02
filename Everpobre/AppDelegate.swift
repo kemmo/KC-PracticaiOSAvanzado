@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let splitViewController = UISplitViewController()
         splitViewController.delegate = self
-        splitViewController.preferredDisplayMode = .primaryOverlay
+        splitViewController.preferredDisplayMode = .allVisible
         splitViewController.viewControllers = [
             notesNavigationController,
             noNoteNavigationController
